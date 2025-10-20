@@ -1,0 +1,95 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+.eggs/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+.junit/
+.tox/
+.nox/
+
+# Type checkers
+.mypy_cache/
+.pyre/
+.pytype/
+
+# Jupyter
+.ipynb_checkpoints
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+.env
+.env.*
+.envrc
+
+# Logs
+*.log
+
+# Editors/IDEs
+.vscode/
+.idea/
+*.code-workspace
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Sphinx / MkDocs
+docs/_build/
+site/
+
+# Cython debug symbols
+cython_debug/
+
+# Optional: local data/output caches (uncomment what you use)
+# data/
+# data/**
+# output/
+# outputs/
+# downloads/
+# tmp/
+# temp/
+# cache/
+
+# Optional: large remote-sensing files (uncomment with care)
+# *.SAFE/
+# *.tif
+# *.tiff
+# *.jp2
+# *.nc
+# *.h5

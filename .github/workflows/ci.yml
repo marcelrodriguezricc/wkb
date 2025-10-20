@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+            python-version: '3.11'
+
+      - name: Install minimal tooling
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+
+      - name: Static import/syntax check
+        run: |
+          python -m py_compile $(git ls-files '*.py' | tr '\n' ' ') || true
+
+      - name: Run tests (if present)
+        run: |
+          if ls tests/*.py >/dev/null 2>&1; then
+            pytest -q
+          else
+            echo "No tests directory or Python tests found; skipping."
+          fi
