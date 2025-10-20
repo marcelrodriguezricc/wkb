@@ -3,20 +3,48 @@
 ## Project overview
 The goal of this project is to derive bathymetric maps by WKB from both optical and SAR imagery from four environmentally diverse coastal areas, then use high-resolution multibeam echosounder (MBES) survey for ground-truthing to compute the Root Mean Square Error (RMSE) for each map, to determine the strengths and weaknesses of each method.
 
-- Data
-    - Optical - Sentinel-2
-    - SAR - Sentinel-1
-    - MBES - NOAA NCEI
+- Step 1: Determine four Areas of Interest (AOI)
 
-- Processing
+    - Select for available NCEI MBES bathymetry DEMs at a variety of locations with diverse environmental conditions, and identify coordinates for a bounding box
+        - Latitude
+        - Exposure to marine processes
+        - Seafloor features (reefs, sandbars, canyons, heavy slope)
+
+    - Compile a list of time windows around NCEI MBES survey time with active swell, filter for a variety of parameters
+        - Use WaveWatch III and Copernicus Marine Service models to filter for
+            - Wave height
+            - Period
+            - Direction
+
+- Step 2: Find, load, and match datasets
+
+    - Filter potential datasets based on AOI bounding box and list of time windows
+
+    - Load Sentinel 1, Sentinel 2, and NCEI datasets datasets
+
+    - Match the dimensionality (Datum / CRS / Projection) for each dataset so overlayed pixels correspond spatially
+
+- Step 4: Derive bathymetry
+
     - Optical
-        - Randon transform > discrete fourier transform > wave celerity > linear dispersion [1]
-    - SAR
-        - 2D Fast fourier transform > wavelength estimation > linear dispersion [2]
+        - Randon transform > discrete Fourier transform > wave celerity > linear dispersion [1]
 
-- Evaluation
-    - RMSE metrics
-    - Plots for derived and ground-truth bathymetry
+    - SAR
+        - 2D Fast Fourier transform > wavelength estimation > linear dispersion [2]
+
+    - Generate map figures for each
+
+- Step 5: Evaluation
+
+    - Record wave characteristics from wave model.
+
+    - Calculate “visibility index” based on the unique requirements for identifying surface waves from optical and SAR imagery.
+        - Sentinel 2 - Glint score & cloud coverage
+        - Sentinel 1 - Backscatter and L-min
+
+    - Compute root mean squared difference for each bathymetric derivation against MBES DEM.
+
+    - Generate a difference map using RMS error for each pixel
 
 ## Setup
 
