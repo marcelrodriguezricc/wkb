@@ -76,7 +76,7 @@ site/
 # Cython debug symbols
 cython_debug/
 
-# Optional: local data/output caches (uncomment what you use)
+# Local data/output caches
 # data/
 # data/**
 # output/
@@ -86,7 +86,7 @@ cython_debug/
 # temp/
 # cache/
 
-# Optional: large remote-sensing files (uncomment with care)
+# Large remote-sensing files
 # *.SAFE/
 # *.tif
 # *.tiff
