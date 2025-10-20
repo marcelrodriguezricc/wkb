@@ -1,0 +1,97 @@
+# ==============================
+# .gitattributes for the wkb repo
+# ------------------------------
+# This file controls how Git treats different paths in the repository.
+# It can normalize line endings, mark binaries (disabling text diffs),
+# configure custom diff/merge drivers, and integrate with Git LFS.
+#
+# Review the comments on each block to tailor behavior to your needs.
+# ==============================
+# ---- 1) Baseline text handling --------------------------------------------
+# "text=auto" asks Git to detect text files and normalize their line endings
+# to LF in the repository. On checkout, Git uses the platform default unless
+# a more specific rule is set below. This avoids stray CRLFs entering history.
+# If you want every detected text file to always be LF on checkout (even
+# on Windows), uncomment the next line and set eol=lf globally here instead.
+* text=auto
+#* text=auto eol=lf   # Stronger: force LF on checkout for all detected text
+# ---- 2) Explicit LF for common source and config files ---------------------
+# Be explicit for common file types used in this repo. This ensures consistent
+# LF endings even if global Git settings vary across contributors.
+*.py     text eol=lf
+*.sh     text eol=lf
+*.md     text eol=lf
+*.txt    text eol=lf
+*.csv    text eol=lf
+*.json   text eol=lf
+*.yml    text eol=lf
+*.yaml   text eol=lf
+*.ini    text eol=lf
+*.cfg    text eol=lf
+requirements.txt text eol=lf
+# ---- 3) Mark non-text formats as binary (disables text diffs) --------------
+# Binary disables text-based diffs and prevents line-ending normalization.
+# This keeps histories smaller/cleaner for opaque formats.
+# Common media/docs
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.gif    binary
+*.pdf    binary
+*.docx   binary
+# Geospatial / remote-sensing formats
+# If you plan to version large rasters, consider using Git LFS (see section 6)
+*.tif filter=lfs diff=lfs merge=lfs -text
+*.tiff filter=lfs diff=lfs merge=lfs -text
+*.jp2 filter=lfs diff=lfs merge=lfs -text
+*.nc filter=lfs diff=lfs merge=lfs -text
+*.h5 filter=lfs diff=lfs merge=lfs -text
+# Sentinel SAFE product directories typically contain many large binaries
+*.SAFE/** binary
+# Notebooks (treat as binary by default to avoid noisy JSON diffs).
+# If you adopt a notebook-aware diff (e.g., nbdime), you can replace this rule
+# with a custom diff driver (see section 5 below).
+*.ipynb  binary
+# ---- 4) Export rules (git archive) -----------------------------------------
+# Exclude built documentation and static site outputs from generated archives.
+# This doesn't affect normal clones or checkouts.
+docs/_build/** export-ignore
+site/**       export-ignore
+# Optionally, hint to GitHub Linguist that built docs are generated.
+docs/_build/** linguist-generated
+# ---- 5) Optional: custom diff/merge drivers (commented examples) -----------
+# You can define custom drivers in your Git config and reference them here.
+# Example: Use "nbdiff" for Jupyter notebooks after installing/configuring nbdime
+# (Requires: `git config diff.ipynb.textconv nbdime` and related setup.)
+#
+#*.ipynb diff=ipynb
+#
+# Example: lightweight CSV diffs that ignore order/whitespace could be added
+# with a custom script; left commented as behavior is project-specific.
+#*.csv diff=csv
+# For merges, you can pick drivers too (e.g., ours/theirs/custom scripts).
+#*.ipynb merge=ours
+# ---- 6) Optional: Git LFS tracking for large files -------------------------
+# If you use Git LFS, switch binary rules for large formats to LFS filters.
+# Steps:
+#  1) Install LFS once:    git lfs install
+#  2) Track patterns:      git lfs track "*.tif" "*.tiff" "*.jp2" "*.nc" "*.h5"
+#  3) Commit this file:    git add .gitattributes && git commit -m "Use LFS"
+#
+# Then uncomment the lines below to enforce LFS filters via attributes:
+#*.tif   filter=lfs diff=lfs merge=lfs -text
+#*.tiff  filter=lfs diff=lfs merge=lfs -text
+#*.jp2   filter=lfs diff=lfs merge=lfs -text
+#*.nc    filter=lfs diff=lfs merge=lfs -text
+#*.h5    filter=lfs diff=lfs merge=lfs -text
+#*.SAFE/** filter=lfs diff=lfs merge=lfs -text
+# Optionally store large PDFs in LFS too:
+#*.pdf   filter=lfs diff=lfs merge=lfs -text
+# If you collaborate with locking workflows (CAD/GIS), add lockable:
+#*.tif   filter=lfs diff=lfs merge=lfs -text lockable
+# ---- 7) Per-path overrides and fallbacks ----------------------------------
+# If a specific file must keep CRLF endings (rare in this repo), you can force it:
+#path/to/file.txt text eol=crlf
+# To completely disable any text normalization for a specific file:
+#path/to/file.bin -text
+# End of .gitattributes
